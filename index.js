@@ -5,16 +5,27 @@ const errorPage=fs.readFileSync('error.html','utf-8');
 
 //make server with express
 const express = require('express');
-const { type } = require('os');
 const server = express();
+//Third party  midleware
+
+
+
 //Midle ware to see and check info like eventsx in solidity loger
 // server.use((req,res,next)=>{
 //     console.log(req.method,req.ip,req.hostname,new Date(),req.get('User-Agent'));
 //     next();
-// })
+// });//It is application level middleWare
+//++++++++++++++++++Most Imp middleware++++++++++++++++
+server.use(express.static('public'));
+//It mean we have folder name public in which files some files which are showing
+
+// third party
+//this midleware use to read body
+//server.use(express.json())
+//These are rout middle wear
 let auth=((req,res,next)=>{
     console.log(req.query.password);
-    if(req.query.password==="123"){
+    if(req.bosy.password==="123"){
         next();
     }else{
         res.sendStatus(401); // 401 unauthorised status
