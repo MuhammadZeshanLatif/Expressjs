@@ -7,10 +7,31 @@ const errorPage=fs.readFileSync('error.html','utf-8');
 const express = require('express');
 const { type } = require('os');
 const server = express();
-server.get('/',(req,res)=>{
+//Midle ware to see and check info like eventsx in solidity loger
+// server.use((req,res,next)=>{
+//     console.log(req.method,req.ip,req.hostname,new Date(),req.get('User-Agent'));
+//     next();
+// })
+let auth=((req,res,next)=>{
+    console.log(req.query.password);
+    if(req.query.password==="123"){
+        next();
+    }else{
+        res.sendStatus(401); // 401 unauthorised status
+    }
+});
+let auth2=((req,res,next)=>{
+    console.log(req.query.password);
+    if(req.query.password==="1234"){
+        next();
+    }else{
+        res.sendStatus(401); // 401 unauthorised status
+    }
+});
+server.get('/',auth,(req,res)=>{
     res.json({type:'GET'});
 });
-server.post('/',(req,res)=>{
+server.post('/',auth2,(req,res)=>{
     res.json({type:'POST'});
 });
 server.delete('/',(req,res)=>{
