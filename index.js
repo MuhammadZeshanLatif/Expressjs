@@ -5,10 +5,11 @@ const errorPage=fs.readFileSync('error.html','utf-8');
 
 //make server with express
 const express = require('express');
+const morgan = require('morgan');
 const server = express();
 //Third party  midleware
 
-
+server.use(morgan('default'))
 
 //Midle ware to see and check info like eventsx in solidity loger
 // server.use((req,res,next)=>{
@@ -16,7 +17,7 @@ const server = express();
 //     next();
 // });//It is application level middleWare
 //++++++++++++++++++Most Imp middleware++++++++++++++++
-server.use(express.static('public'));
+//server.use(express.static('public'));
 //It mean we have folder name public in which files some files which are showing
 
 // third party
@@ -24,12 +25,13 @@ server.use(express.static('public'));
 //server.use(express.json())
 //These are rout middle wear
 let auth=((req,res,next)=>{
-    console.log(req.query.password);
-    if(req.bosy.password==="123"){
-        next();
-    }else{
-        res.sendStatus(401); // 401 unauthorised status
-    }
+    // console.log(req.query.password);
+    // if(req.bosy.password==="123"){
+    //     next();
+    // }else{
+    //     res.sendStatus(401); // 401 unauthorised status
+    // }
+    nexft()
 });
 let auth2=((req,res,next)=>{
     console.log(req.query.password);
@@ -39,7 +41,7 @@ let auth2=((req,res,next)=>{
         res.sendStatus(401); // 401 unauthorised status
     }
 });
-server.get('/',auth,(req,res)=>{
+server.get('/product/:id',auth,(req,res)=>{
     res.json({type:'GET'});
 });
 server.post('/',auth2,(req,res)=>{
@@ -50,7 +52,7 @@ server.delete('/',(req,res)=>{
 });
 server.patch('/',(req,res)=>{
     res.json({type:'PATCH'});
-})
+});
 
 
 
